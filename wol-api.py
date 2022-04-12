@@ -31,7 +31,7 @@ def home():
     id = request.args.get('id')
     
     # Default error message
-    action = 'Error 404 - no action taken'
+    action = 'Error 404'
     
     # If ID listed with MAC address in json then wake device
     if id in devices:
