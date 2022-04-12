@@ -1,12 +1,15 @@
-import requests
+# Get libraries
+from flask import Flask, request
 
-# Make voicemonkey announcement via Alexa
-def call_monkey(monkey,announcement = ' '):
+# Initialise API
+app = Flask(__name__)
 
-    PAT = '970f7c8f32b261b84dedd33ba2f77ee1'
-    ST = '43e69e6ade59dff6bc96b9531ab12a3f'
+# Return student list
+@app.route('/',methods=['POST'])
+def home():
+    output = request.args.get('status')
+    return output
 
-    announcement.replace(' ','%20')
-    url = 'https://api.voicemonkey.io/trigger?access_token=' + PAT + '&secret_token=' + ST + '&monkey=' + monkey + '&announcement=' + announcement
-
-    requests.get(url)
+# Run local server
+if __name__ == "__main__":
+    app.run(debug=True)
