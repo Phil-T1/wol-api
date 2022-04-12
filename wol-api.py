@@ -9,38 +9,37 @@ e.g.
 }
 '''
 
-# Get libraries
+# Import libraries
 from flask import Flask, request
 from wakeonlan import send_magic_packet
 import json
 
-# Load device data
+# Load device data from json file
 f = open('data.json')
 devices = json.load(f)
 f.close()
 
-print(devices['01'])
-
 # Initialise API
 app = Flask(__name__)
 
-# Return student list
-@app.route('/',methods=['POST'])
-def home():
+# Create WOL endpoint
+@app.route('/')
+def wol():
+
     # Get API request type
     id = request.args.get('id')
     
     # Default error message
-    action = 'Error 404'
+    status = 'Error 404'
     
     # If ID listed with MAC address in json then wake device
     if id in devices:
         mac = devices[id]
         send_magic_packet(mac)
-        action = id + ' - success!'
+        status = id + ' - success!'
 
-    return action
+    return status
 
 # Run local server
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
