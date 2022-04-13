@@ -14,6 +14,7 @@ Where port 8888 is open to the net and forwarded to port 5000 and your local dev
 
 # Import libraries
 import flask
+from waitress import serve
 from wakeonlan import send_magic_packet
 import json
 
@@ -48,4 +49,4 @@ def wol():
 
 # Run local server
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    serve(app, host='0.0.0.0', port=5000)
