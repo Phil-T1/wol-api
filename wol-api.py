@@ -13,9 +13,12 @@ Where port 8888 is open to the net and forwarded to port 5000 and your local dev
 '''
 
 # Import libraries
-from flask import Flask, request
+import flask
 from wakeonlan import send_magic_packet
 import json
+
+# Show flask version
+print('Running flask version: ', flask.__version__)
 
 # Load device data from json file
 f = open('data.json')
@@ -23,14 +26,14 @@ devices = json.load(f)
 f.close()
 
 # Initialise API
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 # Create WOL endpoint
 @app.route('/')
 def wol():
 
     # Get API request type
-    id = request.args.get('id')
+    id = flask.request.args.get('id')
     
     # Default error message
     status = 'Error 404'
@@ -45,4 +48,4 @@ def wol():
 
 # Run local server
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=False)
