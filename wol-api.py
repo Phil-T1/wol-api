@@ -49,4 +49,5 @@ def wol():
 
 # Run local server
 if __name__ == "__main__":
+    print('Server started...')
     serve(app, host='0.0.0.0', port=5000)
