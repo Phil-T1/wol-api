@@ -7,6 +7,9 @@ e.g.
     "01": "AA:BB:CC:DD:EE:FF",
     "02": "GG:HH:II:JJ:KK:LL"
 }
+Wake by sending a get command via IFTTT to your external IP address (you'll need a port open) e.g.
+http://99.200.200.20:8888/?id=02
+Where port 8888 is open to the net and forwarded to port 5000 and your local device.
 '''
 
 # Import libraries
@@ -42,4 +45,4 @@ def wol():
 
 # Run local server
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', ssl_context=('certificate.pem', 'private-key.pem'), port=5000)
+    app.run(host='0.0.0.0', port=5000)
