@@ -13,16 +13,19 @@ Where port 8888 is open to the net and forwarded to port 5000 and your local dev
 '''
 
 # Import libraries
+import json
 import flask
 from waitress import serve
 from wakeonlan import send_magic_packet
-import json
+
+# Choose the port forwarded from your router's IP to your local WOL server
+PORT_FORWARDED = 5000
 
 # Show flask version
 print('Running flask version: ', flask.__version__)
 
 # Load device data from json file
-f = open('data.json')
+f = open('data.json', encoding='utf8')
 devices = json.load(f)
 f.close()
 
@@ -32,22 +35,29 @@ app = flask.Flask(__name__)
 # Create WOL endpoint
 @app.route('/')
 def wol():
+    '''
+    Endpoint for WOL request.
+    id = 1 or id =2 is passed in a http request, and the corresponding MAC address is read from the
+    data.json file.
+    A magic packet is then sent locally to the device's MAC address.
+    '''
 
     # Get API request type
-    id = flask.request.args.get('id')
-    
+    wol_id = flask.request.args.get('id')
+
     # Default error message
     status = 'Error 404'
-    
+
     # If ID listed with MAC address in json then wake device
-    if id in devices:
-        mac = devices[id]
+    if wol_id in devices:
+        mac = devices[wol_id]
         send_magic_packet(mac)
-        status = id + ' - success!'
+        status = wol_id + ' - success!'
 
     return status
 
 # Run local server
 if __name__ == "__main__":
     print('Server started...')
-    serve(app, host='0.0.0.0', port=5000)
+    serve(app, host='0.0.0.0', port=PORT_FORWARDED)
+    
