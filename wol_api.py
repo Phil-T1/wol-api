@@ -1,5 +1,5 @@
 '''
-Simple API to wake devices when called.
+Simple API to wake local devices when called.
 A dictionary must be saved in 'data.json', which contains an arbitrary two char string ID
 for a device as a key, and the corresponding value as the MAC address.
 e.g.
@@ -7,9 +7,13 @@ e.g.
     "01": "AA:BB:CC:DD:EE:FF",
     "02": "GG:HH:II:JJ:KK:LL"
 }
-Wake by sending a get command via IFTTT to your external IP address (you'll need a port open) e.g.
+Wake by sending a get request to your WOL server's external IP address e.g.:
 http://99.200.200.20:8888/?id=02
-Where port 8888 is open to the net and forwarded to port 5000 and your local device.
+Where public port 8888 on your router is open to the net,
+and forwarded to local port (default 5000) on your WOL server,
+where the device to be woken is labelled id = "02" in the data.json file.
+
+Full instructions in README.md
 '''
 
 # Import libraries
