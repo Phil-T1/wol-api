@@ -29,9 +29,9 @@ PORT_FORWARDED = 5000
 print('Running flask version: ', flask.__version__)
 
 # Load device data from json file
-f = open('data.json', encoding='utf8')
-devices = json.load(f)
-f.close()
+with open('data.json', encoding='utf8') as f:
+    devices = json.load(f)
+    f.close()
 
 # Initialise API
 app = flask.Flask(__name__)
@@ -56,7 +56,7 @@ def wol():
     if wol_id in devices:
         mac = devices[wol_id]
         send_magic_packet(mac)
-        status = wol_id + ' - success!'
+        status = f'{wol_id} - success!'
 
     return status
 
