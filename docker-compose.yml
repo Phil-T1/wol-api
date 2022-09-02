@@ -1,0 +1,11 @@
+version: '2'
+services:
+    web:
+        container_name: wol-api
+        network_mode: host
+        build: ./web
+        #ports:
+        #    - "9:9" # Not required as run in network host mode
+        volumes:
+            - .:/code
+        restart: always
